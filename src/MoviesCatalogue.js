@@ -6,6 +6,7 @@ import api from './apiRequest';
 
 export default function MoviesCatalogue() {
   const [movies, setMovies] = useState(null);
+  const [error, setError] = useState(null);
   useEffect(() => {
     const fetchAllMovies = async () => {
       try {
@@ -13,11 +14,14 @@ export default function MoviesCatalogue() {
         console.log('PAYLOAD', payload);
         setMovies(payload);
       } catch (err) {
+        setError('Failed to load the data');
         console.log(err);
       }
     };
     fetchAllMovies();
-  }, [setMovies]);
+  }, [setMovies, setError]);
+
+  if (error) return <div>Failed to load the data. Try refreshing.</div>;
 
   const moviesGrid = movies ? <CatalogueView movies={movies} /> : null;
 

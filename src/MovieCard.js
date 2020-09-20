@@ -7,13 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import styled from 'styled-components';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-
-const Movie = styled.div`
-  display: flex;
-  justify-content: center;
-`;
 
 const useStyles = makeStyles({
   root: {

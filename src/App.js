@@ -10,6 +10,7 @@ import {
 
 import CatalogueView from './MoviesCatalogue';
 import DetailedMovieCard from './DetailedMovieCard';
+import Menu from './Menu';
 
 import './App.css';
 
@@ -17,6 +18,7 @@ function App() {
   return (
     <div className='App'>
       <Router>
+        <Menu />
         <Switch>
           <Route exact path='/movies'>
             <CatalogueView />

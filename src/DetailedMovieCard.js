@@ -30,11 +30,16 @@ const useStyles = makeStyles({
     display: 'flex',
   },
   container: {
+    marginTop: '50px',
     display: 'flex',
-    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   poster: {
     maxWidth: 350,
+  },
+  backButton: {
+    margin: 40,
   },
 });
 
@@ -42,6 +47,7 @@ const DetailedMovieCard = ({}) => {
   const { id } = useParams();
 
   const [movie, setMovie] = useState(null);
+  const [error, setError] = useState(null);
   useEffect(() => {
     const fetchMovie = async () => {
       try {
@@ -49,17 +55,20 @@ const DetailedMovieCard = ({}) => {
         console.log('PAYLOAD', payload);
         setMovie(payload);
       } catch (err) {
+        setError('Failed to load the data. Try refreshing');
         console.log(err);
       }
     };
     fetchMovie();
   }, [id, setMovie]);
 
-  return movie ? <MovieView movie={movie} /> : <div>Placeholder</div>;
+  if (error) return <div>Failed to load the data. Try refreshing.</div>;
+
+  return movie ? <MovieView movie={movie} /> : <div>Loading</div>;
 };
 
 const MovieView = ({ movie }) => {
-  const { Poster, Title, Price } = movie;
+  const { Poster, Title, Price, Plot } = movie;
   const classes = useStyles();
   return (
     <div className={classes.container}>
@@ -78,13 +87,19 @@ const MovieView = ({ movie }) => {
             </Typography>
           </CardContent>
           <CardContent>
-            <Typography variant='h6' component='h6'>
-              Available on:
+            <Typography variant='p' gutterBottom>
+              {Plot}
             </Typography>
+
             <Prices priceData={Price} />
           </CardContent>
         </CardContent>
       </Card>
+      <Link to='/movies' className={classes.backButton}>
+        <Button variant='contained' color='primary'>
+          Back to catalogue
+        </Button>
+      </Link>
     </div>
   );
 };
