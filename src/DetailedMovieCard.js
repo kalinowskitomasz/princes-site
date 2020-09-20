@@ -51,7 +51,6 @@ const DetailedMovieCard = ({}) => {
           setError('Invalid id');
         } else {
           const payload = await api.get(`movie/${id}`).json();
-          console.log('PAYLOAD', payload);
           setMovie(payload);
         }
       } catch (err) {

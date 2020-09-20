@@ -11,7 +11,6 @@ export default function MoviesCatalogue() {
     const fetchAllMovies = async () => {
       try {
         const payload = await api.get('movies').json();
-        console.log('PAYLOAD', payload);
         setMovies(payload);
       } catch (err) {
         setError('Failed to load the data');
