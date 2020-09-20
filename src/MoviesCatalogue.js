@@ -1,12 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import './App.css';
+import { makeStyles } from '@material-ui/core/styles';
 
 import Movie from './MovieCard';
 import api from './apiRequest';
 
+const useStyles = makeStyles({
+  moviesGrid: {
+    margin: '5vw',
+    display: 'grid',
+    gridAutoFlow: 'row',
+    gridGap: '2em',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+    justifyItems: 'center',
+  },
+});
+
 export default function MoviesCatalogue() {
   const [movies, setMovies] = useState(null);
   const [error, setError] = useState(null);
+  const classes = useStyles();
   useEffect(() => {
     const fetchAllMovies = async () => {
       try {
@@ -20,11 +32,15 @@ export default function MoviesCatalogue() {
     fetchAllMovies();
   }, [setMovies, setError]);
 
-  if (error) return <div>Failed to load the data. Try refreshing.</div>;
+  if (error) return <div>{error}</div>;
 
-  const moviesGrid = movies ? <CatalogueView movies={movies} /> : null;
+  const moviesGrid = movies ? (
+    <CatalogueView movies={movies} />
+  ) : (
+    <div>Loading...</div>
+  );
 
-  return <div className='container'>{moviesGrid}</div>;
+  return <div className={classes.moviesGrid}>{moviesGrid}</div>;
 }
 
 export function CatalogueView({ movies }) {

@@ -11,11 +11,9 @@ import CatalogueView from './MoviesCatalogue';
 import DetailedMovieCard from './DetailedMovieCard';
 import Menu from './Menu';
 
-import './App.css';
-
 function App() {
   return (
-    <div className='App'>
+    <div>
       <Router>
         <Menu />
         <Switch>
