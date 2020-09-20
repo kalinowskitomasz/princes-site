@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  margin: 0 auto;
 }
 
 .App-logo {
@@ -11,6 +12,14 @@
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+}
+
+.container {
+  margin: 5vw;
+  display: grid;
+  grid-auto-flow: row;
+  grid-gap: 2em;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
 .App-header {
