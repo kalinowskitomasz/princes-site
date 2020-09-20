@@ -1,25 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Card from '@material-ui/core/Card';
 import { makeStyles } from '@material-ui/core/styles';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import styled from 'styled-components';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
-} from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 import api from './apiRequest';
@@ -43,6 +31,14 @@ const useStyles = makeStyles({
   },
 });
 
+// starts with tt prefix, then 7-10 digits
+const imdbRegex = /^tt\d{7,10}$/;
+export function validateId(id) {
+  if (typeof id !== 'string') return false;
+
+  return imdbRegex.test(id);
+}
+
 const DetailedMovieCard = ({}) => {
   const { id } = useParams();
 
@@ -51,9 +47,13 @@ const DetailedMovieCard = ({}) => {
   useEffect(() => {
     const fetchMovie = async () => {
       try {
-        const payload = await api.get(`movie/${id}`).json();
-        console.log('PAYLOAD', payload);
-        setMovie(payload);
+        if (!validateId(id)) {
+          setError('Invalid id');
+        } else {
+          const payload = await api.get(`movie/${id}`).json();
+          console.log('PAYLOAD', payload);
+          setMovie(payload);
+        }
       } catch (err) {
         setError('Failed to load the data. Try refreshing');
         console.log(err);
@@ -62,7 +62,7 @@ const DetailedMovieCard = ({}) => {
     fetchMovie();
   }, [id, setMovie]);
 
-  if (error) return <div>Failed to load the data. Try refreshing.</div>;
+  if (error) return <div>{error}</div>;
 
   return movie ? <MovieView movie={movie} /> : <div>Loading</div>;
 };
