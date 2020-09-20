@@ -12,10 +12,14 @@ import TableRow from '@material-ui/core/TableRow';
 
 import api from './apiRequest';
 
-const useStyles = makeStyles({
-  root: {
+const useStyles = makeStyles((theme) => ({
+  card: {
     maxWidth: '800px',
     display: 'flex',
+    [theme.breakpoints.down('md')]: {
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
   },
   container: {
     marginTop: '50px',
@@ -29,7 +33,7 @@ const useStyles = makeStyles({
   backButton: {
     margin: 40,
   },
-});
+}));
 
 // starts with tt prefix, then 7-10 digits
 const imdbRegex = /^tt\d{7,10}$/;
@@ -71,7 +75,7 @@ const MovieView = ({ movie }) => {
   const classes = useStyles();
   return (
     <div className={classes.container}>
-      <Card className={classes.root} elevation={3}>
+      <Card className={classes.card} elevation={3}>
         <CardMedia
           className={classes.poster}
           component='img'
